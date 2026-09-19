@@ -1,0 +1,18 @@
+{
+  "device_id": "3289SH1010010782",
+  "dodge_delay_ms": 25,
+  "dodge_range": 320,
+  "detection_cooldown_seconds": 0.2,
+  "min_contour_area": 30,
+  "min_motion_pixels": 2,
+  "max_tracking_jump": 220,
+  "min_threat_score": 0.35,
+  "dry_run": false,
+  "debug": false,
+  "roi": {
+    "left": 0.08,
+    "top": 0.10,
+    "right": 0.92,
+    "bottom": 0.92
+  }
+}
