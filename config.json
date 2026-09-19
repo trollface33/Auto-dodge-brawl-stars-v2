@@ -1,6 +1,7 @@
 {
   "device_id": "3289SH1010010782",
   "dodge_delay_ms": 25,
+  "dodge_duration_ms": 220,
   "dodge_range": 320,
   "detection_cooldown_seconds": 0.2,
   "min_contour_area": 30,

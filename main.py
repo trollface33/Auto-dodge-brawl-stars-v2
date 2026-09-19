@@ -4,7 +4,6 @@ import argparse
 import json
 import logging
 import time
-from typing import Optional
 
 from adb_controller import ADBController
 from dodge_planner import DodgePlanner
@@ -83,7 +82,7 @@ def main():
                             player_position[1],
                             dodge_target[0],
                             dodge_target[1],
-                            duration_ms=config.get("dodge_delay_ms", 25),
+                            duration_ms=config.get("dodge_duration_ms", 220),
                         )
                         dodge_count += 1
                         logger.info("Dodge executed #%s to %s", dodge_count, dodge_target)
