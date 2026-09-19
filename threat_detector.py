@@ -26,6 +26,7 @@ class ThreatDetector:
         self.roi = roi or {"left": 0.08, "top": 0.10, "right": 0.92, "bottom": 0.92}
         self.previous_candidates: List[Dict] = []
         self.last_threat: Optional[Tuple[int, int]] = None
+        self.last_debug = {"candidates": [], "best": None, "threat": None}
 
     @staticmethod
     def _to_numpy(frame):
@@ -88,15 +89,20 @@ class ThreatDetector:
                 })
         return candidates
 
+    def get_last_debug(self):
+        return self.last_debug
+
     def update(self, frame, player_position) -> Optional[Tuple[int, int]]:
         try:
             image = self._to_numpy(frame)
             candidates = self._find_candidates(image, player_position)
+            best = None
+            self.last_debug = {"candidates": candidates, "best": None, "threat": None}
+
             if not candidates:
                 self.previous_candidates = []
                 return None
 
-            best = None
             for current in candidates:
                 nearest = None
                 nearest_distance = self.max_tracking_jump
@@ -138,12 +144,17 @@ class ThreatDetector:
 
             self.previous_candidates = candidates
             if best is None:
+                self.last_debug["best"] = None
                 return None
             if best[0] < self.min_threat_score:
+                self.last_debug["best"] = best
                 return None
 
-            self.last_threat = (int(best[1]), int(best[2]))
-            return self.last_threat
+            threat = (int(best[1]), int(best[2]))
+            self.last_threat = threat
+            self.last_debug["best"] = best
+            self.last_debug["threat"] = threat
+            return threat
         except Exception as e:
             logger.error(f"Threat detection error: {e}")
             return None
